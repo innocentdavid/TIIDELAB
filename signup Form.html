@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=D, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>TIIDELab Signup Form</title>
+  <style>
+    body {
+      background-color: mediumpurple;
+    }
+    input {
+      margin: 5px 15px;
+      width: 80%;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .submit {
+      width: 80%;
+      background-color: red;
+      color: snow;
+      font-size: 30px;
+    }
+    h3 {
+      margin: 5px;
+      padding-left: 9px;
+      color: red;
+      font-size: 30px;
+    }
+    input:focus {
+      background-color: red;
+      outline: none;
+      color: royalblue;
+    }
+    .section1, .section2 {
+      float: left;
+      width: 50%;
+    }
+@media screen and (max-width: 800px) {
+      .section1, .section2 {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div style="background-color: mistyrose; padding:5px;
+    border-radius: 10px;
+    height:60%; width: 70%;
+    margin: 100px auto;">
+
+    <div class="section1">
+      <img src="learning.png" alt="Learning" srcset="" style="max-width: 100%;">
+    </div>
+
+    <div class="section2">
+      <h3> Registration Form</h3>
+      <form action="" name="signupForm" id="SignupForm">
+        <input type="text" name="fullName" id="fullName" placeholder="Enter Your FullName" required>
+        <input type="email" name="email" id="email" placeholder="Enter Your Email Address" required>
+        <input type="text" name="username" id="userName" placeholder="Enter Your username" required>
+        <input type="password" name="password" id="password" placeholder="Enter Your Password" required>
+        <input type="password" name="cpassword" id="confirmpassword" placeholder="Enter Your Password Again" required>
+        <input type="Submit" value="Signup" class="submit">
+      </form>
+    </div>
+    <div style="clear: left;"></div>
+  </div>
+  <script>
+    // changes
+
+    // 1. 'even' was passed into the function to be run when the form is submitted instead of 'event'
+    // check the rest please
+
+    document.getElementById('SignupForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      let fullname = document.getElementById('fullName').value;
+      let email = document.getElementById('email').value;
+      let username = document.getElementById('userName').value;
+      let password = document.getElementById('password').value;
+      let cpassword = document.getElementById('confirmpassword').value;
+
+      let data = {
+        "fullName": fullname,
+        "email": email,
+        "userName": username,
+        "newpassword": password,
+        "isEnabled": true,
+        "roles": ["user"]
+      }
+      if (password != cpassword) {
+        alert('password do not match')
+      } else {
+        fetch('https://api.openclass.ng/Register', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(function(data) {
+          console.log(data);
+          alert('congratulations! you have registered with us successfully status ='+data.status);
+          //window.location = ""; this will return the user to the default route and clean the console!
+
+          // you may need to check the result before alerting the user with 'congrats' looking at the result in the console i know i have access to data.status
+          // if (data.status == 200){
+          //alert('congrat');;
+          //}
+        })
+      }
+    })
+  </script>
+</body>
+</html>
